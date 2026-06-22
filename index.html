@@ -1,0 +1,2666 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Literacy Workbook · Empowering Learners for the Age of AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS & RESET
+   ============================================================ */
+:root {
+  --navy:       #0D1B2A;
+  --navy-mid:   #1A2332;
+  --navy-light: #243447;
+  --cyan:       #00D4FF;
+  --cyan-dim:   #0099BB;
+  --amber:      #FFB703;
+  --red-soft:   #FF6B6B;
+  --green-soft: #51CF66;
+  --white:      #F0F4F8;
+  --slate:      #8899AA;
+  --slate-mid:  #4A5568;
+
+  /* Light mode overrides applied via [data-theme="light"] */
+  --bg:         var(--navy);
+  --bg-card:    var(--navy-mid);
+  --bg-inset:   var(--navy-light);
+  --text:       var(--white);
+  --text-muted: var(--slate);
+  --border:     rgba(0,212,255,0.15);
+  --shadow:     0 4px 24px rgba(0,0,0,0.4);
+  --glow:       0 0 20px rgba(0,212,255,0.25);
+
+  --radius:     12px;
+  --radius-sm:  6px;
+  --transition: 0.25s ease;
+
+  /* Domain colors */
+  --engage:  #00D4FF;
+  --create:  #51CF66;
+  --manage:  #FFB703;
+  --shape:   #FF6B6B;
+}
+
+[data-theme="light"] {
+  --bg:         #F0F4F8;
+  --bg-card:    #FFFFFF;
+  --bg-inset:   #E8EFF7;
+  --text:       #0D1B2A;
+  --text-muted: #4A5568;
+  --border:     rgba(13,27,42,0.12);
+  --shadow:     0 4px 24px rgba(0,0,0,0.1);
+  --glow:       0 0 20px rgba(0,153,187,0.15);
+  --navy-light: #D0DCE8;
+  --slate:      #6B7A8D;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5 {
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; }
+h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; }
+h4 { font-size: 1.05rem; font-weight: 600; }
+
+p { max-width: 70ch; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  background: rgba(13,27,42,0.85);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+[data-theme="light"] .nav {
+  background: rgba(240,244,248,0.9);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--cyan);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--text); background: var(--bg-inset); }
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color var(--transition), background var(--transition);
+}
+.nav-btn:hover,
+.nav-btn.active { color: var(--text); background: var(--bg-inset); }
+.nav-btn[data-domain="engage"] { border-left: 2px solid var(--engage); }
+.nav-btn[data-domain="create"] { border-left: 2px solid var(--create); }
+.nav-btn[data-domain="manage"] { border-left: 2px solid var(--manage); }
+.nav-btn[data-domain="shape"]  { border-left: 2px solid var(--shape); }
+.nav-btn[data-domain="teachers"] { border-left: 2px solid var(--amber); }
+
+.nav-links a[data-domain="engage"] { border-left: 2px solid var(--engage); }
+.nav-links a[data-domain="create"] { border-left: 2px solid var(--create); }
+.nav-links a[data-domain="manage"] { border-left: 2px solid var(--manage); }
+.nav-links a[data-domain="shape"]  { border-left: 2px solid var(--shape); }
+
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+
+.theme-btn {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.theme-btn:hover { background: var(--bg-card); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(255,183,3,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--cyan);
+  opacity: 0.5;
+}
+
+.hero h1 { margin-bottom: 24px; }
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin: 0 auto 48px;
+}
+
+/* Neural pathway SVG */
+.neural-path {
+  width: min(700px, 90vw);
+  margin: 0 auto 48px;
+  position: relative;
+}
+
+.neural-path svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.domain-node circle {
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+.domain-node:hover circle { filter: brightness(1.3); }
+
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+}
+
+.btn-primary {
+  background: var(--cyan);
+  color: var(--navy);
+}
+.btn-primary:hover { background: #33DDFF; transform: translateY(-1px); box-shadow: var(--glow); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover { background: var(--bg-card); border-color: var(--cyan); }
+
+/* ============================================================
+   HOW TO USE
+   ============================================================ */
+.how-to-use {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.how-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color var(--transition);
+}
+.how-card:hover { border-color: var(--cyan); }
+
+.how-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.how-card h4 { color: var(--text); }
+.how-card p { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
+
+/* ============================================================
+   DOMAIN SECTIONS
+   ============================================================ */
+.domain-section {
+  padding: 80px 0;
+  scroll-margin-top: 60px;
+}
+
+.domain-section:nth-child(even) .domain-inner {
+  /* subtle bg variation */
+}
+
+.domain-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.domain-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.domain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.domain-desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+.domain-meta {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  min-width: 200px;
+  flex-shrink: 0;
+}
+
+.domain-meta p { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
+.domain-meta strong { color: var(--text); font-size: 0.9rem; display: block; margin-bottom: 4px; }
+
+/* Progress tracker per domain */
+.domain-progress {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.progress-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.progress-dot.done { background: var(--cyan); border-color: var(--cyan); }
+
+/* ============================================================
+   TASK CARDS
+   ============================================================ */
+.tasks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.task-card:hover { box-shadow: var(--shadow); }
+
+.task-header {
+  padding: 24px 28px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.task-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.15;
+  flex-shrink: 0;
+  min-width: 52px;
+}
+
+.task-meta { flex: 1; }
+
+.task-level {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.level-basic    { background: rgba(81,207,102,0.12); color: var(--green-soft); }
+.level-intermediate { background: rgba(255,183,3,0.12); color: var(--amber); }
+.level-advanced { background: rgba(255,107,107,0.12); color: var(--red-soft); }
+.level-challenge { background: rgba(0,212,255,0.12); color: var(--cyan); }
+
+.task-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.task-summary { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
+
+.task-toggle {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.task-body {
+  padding: 0 28px 28px;
+  display: none;
+  animation: fadeSlide 0.25s ease forwards;
+}
+
+.task-body.open { display: block; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sections within a task */
+.task-section {
+  margin-top: 24px;
+}
+
+.task-section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.task-description {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.task-description ul, .task-description ol {
+  margin: 12px 0 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.task-description li { font-size: 0.93rem; }
+
+/* AI Prompt box */
+.ai-prompt-box {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin: 16px 0;
+  font-size: 0.88rem;
+}
+
+.ai-prompt-box .prompt-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-prompt-box .prompt-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.copy-prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 5px 12px;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: var(--radius-sm);
+  color: var(--cyan);
+  font-size: 0.75rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.copy-prompt-btn:hover { background: rgba(0,212,255,0.2); }
+.copy-prompt-btn.copied { background: rgba(81,207,102,0.1); border-color: rgba(81,207,102,0.3); color: var(--green-soft); }
+
+/* Warning box */
+.info-box {
+  background: rgba(255,183,3,0.07);
+  border: 1px solid rgba(255,183,3,0.2);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin: 12px 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.info-box .info-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+/* Reflection textarea */
+.reflection-area {
+  margin-top: 8px;
+}
+
+.reflection-area textarea {
+  width: 100%;
+  min-height: 120px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 14px 16px;
+  resize: vertical;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.reflection-area textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+}
+
+.reflection-area textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+.char-count {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.checklist li label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.checklist input[type="checkbox"] {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: var(--cyan);
+  cursor: pointer;
+}
+
+/* Mark done button */
+.mark-done-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.mark-done-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.mark-done-btn.done { background: rgba(81,207,102,0.1); border-color: var(--green-soft); color: var(--green-soft); }
+
+/* Save note */
+.save-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ============================================================
+   DOMAIN COLOR THEMING
+   ============================================================ */
+.domain-engage .domain-badge { background: rgba(0,212,255,0.1); color: var(--engage); border: 1px solid rgba(0,212,255,0.2); }
+.domain-engage .task-number  { color: var(--engage); }
+.domain-engage .mark-done-btn.done { border-color: var(--engage); color: var(--engage); background: rgba(0,212,255,0.07); }
+.domain-engage .ai-prompt-box { border-left-color: var(--engage); }
+.domain-engage .ai-prompt-box .prompt-label { color: var(--engage); }
+.domain-engage .copy-prompt-btn { color: var(--engage); background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.2); }
+.domain-engage .copy-prompt-btn:hover { background: rgba(0,212,255,0.16); }
+
+.domain-create .domain-badge { background: rgba(81,207,102,0.1); color: var(--create); border: 1px solid rgba(81,207,102,0.2); }
+.domain-create .task-number  { color: var(--create); }
+.domain-create .ai-prompt-box { border-left-color: var(--create); }
+.domain-create .ai-prompt-box .prompt-label { color: var(--create); }
+.domain-create .copy-prompt-btn { color: var(--create); background: rgba(81,207,102,0.08); border-color: rgba(81,207,102,0.2); }
+.domain-create .copy-prompt-btn:hover { background: rgba(81,207,102,0.16); }
+.domain-create .reflection-area textarea:focus { border-color: var(--create); box-shadow: 0 0 0 3px rgba(81,207,102,0.08); }
+
+.domain-manage .domain-badge { background: rgba(255,183,3,0.1); color: var(--manage); border: 1px solid rgba(255,183,3,0.2); }
+.domain-manage .task-number  { color: var(--manage); }
+.domain-manage .ai-prompt-box { border-left-color: var(--manage); }
+.domain-manage .ai-prompt-box .prompt-label { color: var(--manage); }
+.domain-manage .copy-prompt-btn { color: var(--manage); background: rgba(255,183,3,0.08); border-color: rgba(255,183,3,0.2); }
+.domain-manage .copy-prompt-btn:hover { background: rgba(255,183,3,0.16); }
+.domain-manage .reflection-area textarea:focus { border-color: var(--manage); box-shadow: 0 0 0 3px rgba(255,183,3,0.08); }
+
+.domain-shape .domain-badge { background: rgba(255,107,107,0.1); color: var(--shape); border: 1px solid rgba(255,107,107,0.2); }
+.domain-shape .task-number  { color: var(--shape); }
+.domain-shape .ai-prompt-box { border-left-color: var(--shape); }
+.domain-shape .ai-prompt-box .prompt-label { color: var(--shape); }
+.domain-shape .copy-prompt-btn { color: var(--shape); background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.2); }
+.domain-shape .copy-prompt-btn:hover { background: rgba(255,107,107,0.16); }
+.domain-shape .reflection-area textarea:focus { border-color: var(--shape); box-shadow: 0 0 0 3px rgba(255,107,107,0.08); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-note { font-size: 0.82rem; color: var(--text-muted); }
+.footer-note a { color: var(--cyan); text-decoration: none; }
+.footer-note a:hover { text-decoration: underline; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .domain-header { grid-template-columns: 1fr; }
+  .domain-meta { min-width: auto; }
+  .nav-links { display: none; }
+  .task-header { gap: 14px; }
+  .task-number { font-size: 1.8rem; min-width: 38px; }
+}
+
+@media (max-width: 480px) {
+  .task-body { padding: 0 18px 22px; }
+  .task-header { padding: 18px 18px 14px; }
+}
+
+/* ============================================================
+   PULSE ANIMATION (signature element)
+   ============================================================ */
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; r: 10; }
+  50%       { opacity: 1; r: 14; }
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+.pulse-dot { animation: pulse 2s ease-in-out infinite; }
+.flow-line { animation: dash-flow 1.5s linear infinite; }
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+[data-tip] { position: relative; cursor: help; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy-mid);
+  color: var(--white);
+  font-size: 0.72rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border: 1px solid var(--border);
+  z-index: 50;
+}
+[data-tip]:hover::after { opacity: 1; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬡ AI Literacy Workbook</button>
+    <ul class="nav-links" role="list">
+      <li><button class="nav-btn" data-domain="engage" onclick="document.getElementById('engage').scrollIntoView({behavior:'smooth'})">Engage</button></li>
+      <li><button class="nav-btn" data-domain="create" onclick="document.getElementById('create').scrollIntoView({behavior:'smooth'})">Create</button></li>
+      <li><button class="nav-btn" data-domain="manage" onclick="document.getElementById('manage').scrollIntoView({behavior:'smooth'})">Manage</button></li>
+      <li><button class="nav-btn" data-domain="shape" onclick="document.getElementById('shape').scrollIntoView({behavior:'smooth'})">Shape</button></li>
+      <li><button class="nav-btn" data-domain="teachers" style="border-left:2px solid var(--amber);" onclick="document.getElementById('for-teachers').scrollIntoView({behavior:'smooth'})">For Teachers</button></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">☀️</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top" aria-labelledby="hero-heading">
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <div class="hero-eyebrow" aria-hidden="true">AI Literacy Workbook · VG1 · VG2 · VG3</div>
+
+  <h1 id="hero-heading">
+    You are not<br>
+    <span>just a user of AI.</span>
+  </h1>
+
+  <p class="hero-sub">
+    This workbook guides you through four domains of AI literacy from understanding
+    what AI actually is, to using it creatively, managing it critically, and shaping it
+    for the good of society.
+  </p>
+
+  <!-- Neural pathway SVG — signature element -->
+  <div class="neural-path" role="navigation" aria-label="Four AI literacy domains connected as a neural pathway">
+    <svg viewBox="0 0 660 160" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer; overflow:visible;">
+      <!-- Connection lines -->
+      <line x1="110" y1="80" x2="220" y2="80" stroke="rgba(0,212,255,0.3)" stroke-width="1.5" stroke-dasharray="6 4" class="flow-line"/>
+      <line x1="280" y1="80" x2="380" y2="80" stroke="rgba(81,207,102,0.3)" stroke-width="1.5" stroke-dasharray="6 4" class="flow-line" style="animation-delay:-0.5s"/>
+      <line x1="440" y1="80" x2="550" y2="80" stroke="rgba(255,183,3,0.3)" stroke-width="1.5" stroke-dasharray="6 4" class="flow-line" style="animation-delay:-1s"/>
+
+      <!-- ENGAGE node -->
+      <a onclick="document.getElementById('engage').scrollIntoView({behavior:'smooth'})" aria-label="Go to Engage domain" style="cursor:pointer">
+        <g class="domain-node">
+          <circle cx="80" cy="80" r="36" fill="rgba(0,212,255,0.08)" stroke="#00D4FF" stroke-width="1.5"/>
+          <circle cx="80" cy="80" r="10" fill="#00D4FF" class="pulse-dot" style="animation-delay:0s"/>
+          <text x="80" y="136" text-anchor="middle" fill="#00D4FF" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">ENGAGE</text>
+          <text x="80" y="64" text-anchor="middle" fill="rgba(0,212,255,0.6)" font-size="18">👁</text>
+        </g>
+      </a>
+
+      <!-- CREATE node -->
+      <a onclick="document.getElementById('create').scrollIntoView({behavior:'smooth'})" aria-label="Go to Create domain" style="cursor:pointer">
+        <g class="domain-node">
+          <circle cx="250" cy="80" r="36" fill="rgba(81,207,102,0.08)" stroke="#51CF66" stroke-width="1.5"/>
+          <circle cx="250" cy="80" r="10" fill="#51CF66" class="pulse-dot" style="animation-delay:-0.5s"/>
+          <text x="250" y="136" text-anchor="middle" fill="#51CF66" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">CREATE</text>
+          <text x="250" y="64" text-anchor="middle" fill="rgba(81,207,102,0.6)" font-size="18">✦</text>
+        </g>
+      </a>
+
+      <!-- MANAGE node -->
+      <a onclick="document.getElementById('manage').scrollIntoView({behavior:'smooth'})" aria-label="Go to Manage domain" style="cursor:pointer">
+        <g class="domain-node">
+          <circle cx="410" cy="80" r="36" fill="rgba(255,183,3,0.08)" stroke="#FFB703" stroke-width="1.5"/>
+          <circle cx="410" cy="80" r="10" fill="#FFB703" class="pulse-dot" style="animation-delay:-1s"/>
+          <text x="410" y="136" text-anchor="middle" fill="#FFB703" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">MANAGE</text>
+          <text x="410" y="64" text-anchor="middle" fill="rgba(255,183,3,0.6)" font-size="18">⚖</text>
+        </g>
+      </a>
+
+      <!-- SHAPE node -->
+      <a onclick="document.getElementById('shape').scrollIntoView({behavior:'smooth'})" aria-label="Go to Shape domain" style="cursor:pointer">
+        <g class="domain-node">
+          <circle cx="580" cy="80" r="36" fill="rgba(255,107,107,0.08)" stroke="#FF6B6B" stroke-width="1.5"/>
+          <circle cx="580" cy="80" r="10" fill="#FF6B6B" class="pulse-dot" style="animation-delay:-1.5s"/>
+          <text x="580" y="136" text-anchor="middle" fill="#FF6B6B" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">SHAPE</text>
+          <text x="580" y="64" text-anchor="middle" fill="rgba(255,107,107,0.6)" font-size="18">⬡</text>
+        </g>
+      </a>
+    </svg>
+  </div>
+
+  <div class="hero-cta">
+    <button class="btn btn-ghost" onclick="document.getElementById('how-to-use').scrollIntoView({behavior:'smooth'});">How to use this ↓</button>
+    <button class="btn btn-primary" onclick="document.getElementById('engage').scrollIntoView({behavior:'smooth'});">Start the workbook →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW TO USE
+     ============================================================ -->
+<section id="how-to-use" aria-labelledby="howto-heading">
+  <div class="how-to-use">
+    <div class="section-label">Before you begin</div>
+    <h2 id="howto-heading">How to use this workbook</h2>
+    <p style="margin-top:12px;color:var(--text-muted);">Each domain contains 4 tasks. You will read, reflect, and actively use AI tools. Your thinking — not the AI's output — is what matters.</p>
+
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-icon">🧠</div>
+        <h4>Think first</h4>
+        <p>Before prompting any AI, write your own answer or prediction. Notice what changes afterward.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-icon">🤖</div>
+        <h4>Use real AI tools</h4>
+        <p>Each task includes a suggested prompt. Use ChatGPT, Claude, Gemini, or another tool your teacher approves.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-icon">✍️</div>
+        <h4>Reflect in writing</h4>
+        <p>After each task, write in the reflection boxes inside each task. You can type directly into them as you work through the workbook.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-icon">⚠️</div>
+        <h4>Be critical</h4>
+        <p>AI can be wrong, biased, or misleading. Part of your job is to catch it — and say so.</p>
+      </div>
+    </div>
+
+    <!-- Domain quick-links so users can jump from here -->
+    <div style="margin-top:36px;padding-top:28px;border-top:1px solid var(--border);">
+      <div class="section-label" style="margin-bottom:16px;">Jump to a domain</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        <button onclick="document.getElementById('engage').scrollIntoView({behavior:'smooth'})"
+           style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-card);border:1px solid rgba(0,212,255,0.25);border-radius:var(--radius);text-decoration:none;transition:all 0.25s;cursor:pointer;font-family:inherit;"
+           onmouseover="this.style.borderColor='var(--engage)';this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.borderColor='rgba(0,212,255,0.25)';this.style.transform='none'">
+          <span style="font-size:1.4rem;">👁</span>
+          <div><div style="font-weight:700;color:var(--engage);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.07em;">Domain 1</div><div style="font-size:0.85rem;color:var(--text);font-weight:500;">Engage with AI</div></div>
+        </button>
+        <button onclick="document.getElementById('create').scrollIntoView({behavior:'smooth'})"
+           style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-card);border:1px solid rgba(81,207,102,0.25);border-radius:var(--radius);text-decoration:none;transition:all 0.25s;cursor:pointer;font-family:inherit;"
+           onmouseover="this.style.borderColor='var(--create)';this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.borderColor='rgba(81,207,102,0.25)';this.style.transform='none'">
+          <span style="font-size:1.4rem;">✦</span>
+          <div><div style="font-weight:700;color:var(--create);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.07em;">Domain 2</div><div style="font-size:0.85rem;color:var(--text);font-weight:500;">Create with AI</div></div>
+        </button>
+        <button onclick="document.getElementById('manage').scrollIntoView({behavior:'smooth'})"
+           style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-card);border:1px solid rgba(255,183,3,0.25);border-radius:var(--radius);text-decoration:none;transition:all 0.25s;cursor:pointer;font-family:inherit;"
+           onmouseover="this.style.borderColor='var(--manage)';this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.borderColor='rgba(255,183,3,0.25)';this.style.transform='none'">
+          <span style="font-size:1.4rem;">⚖</span>
+          <div><div style="font-weight:700;color:var(--manage);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.07em;">Domain 3</div><div style="font-size:0.85rem;color:var(--text);font-weight:500;">Manage AI</div></div>
+        </button>
+        <button onclick="document.getElementById('shape').scrollIntoView({behavior:'smooth'})"
+           style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-card);border:1px solid rgba(255,107,107,0.25);border-radius:var(--radius);text-decoration:none;transition:all 0.25s;cursor:pointer;font-family:inherit;"
+           onmouseover="this.style.borderColor='var(--shape)';this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.borderColor='rgba(255,107,107,0.25)';this.style.transform='none'">
+          <span style="font-size:1.4rem;">⬡</span>
+          <div><div style="font-weight:700;color:var(--shape);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.07em;">Domain 4</div><div style="font-size:0.85rem;color:var(--text);font-weight:500;">Shape AI</div></div>
+        </button>
+      </div>
+      <div style="text-align:center;margin-top:24px;">
+        <button class="btn btn-primary" onclick="document.getElementById('engage').scrollIntoView({behavior:'smooth'})" style="font-size:1rem;padding:14px 32px;">
+          Start with Domain 1: Engage →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DOMAIN 1: ENGAGE
+     ============================================================ -->
+<section id="engage" class="domain-section domain-engage" aria-labelledby="engage-heading">
+  <div class="domain-inner">
+
+    <div class="domain-header reveal">
+      <div>
+        <div class="domain-badge">👁 Domain 1</div>
+        <h2 id="engage-heading">Engage with AI</h2>
+        <p class="domain-desc">Become a critical and responsible participant in a world shaped by AI. You'll identify where AI exists, question its outputs, and analyse how it affects you.</p>
+      </div>
+      <div class="domain-meta">
+        <strong>4 Tasks</strong>
+        <p>Basic to Advanced</p>
+        <div class="domain-progress" id="engage-progress" aria-label="Task progress">
+          <div class="progress-dot" data-task="engage-1" title="Task 1"></div>
+          <div class="progress-dot" data-task="engage-2" title="Task 2"></div>
+          <div class="progress-dot" data-task="engage-3" title="Task 3"></div>
+          <div class="progress-dot" data-task="engage-4" title="Task 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-grid">
+
+      <!-- TASK E1 -->
+      <article class="task-card reveal" id="task-engage-1" aria-labelledby="te1-title">
+        <div class="task-header" onclick="toggleTask('te1-body', 'te1-toggle')" role="button" aria-expanded="false" aria-controls="te1-body">
+          <div class="task-number">01</div>
+          <div class="task-meta">
+            <span class="task-level level-basic">Basic</span>
+            <h3 class="task-title" id="te1-title">AI is already around you — but where?</h3>
+            <p class="task-summary">Map the AI systems in your daily life before you ever touch a chatbot.</p>
+          </div>
+          <div class="task-toggle" id="te1-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="te1-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Most AI around you is <em>invisible</em>. It filters your search results, decides what appears in your feed, corrects your spelling, and even influences what music you hear next. Before using any AI tool, let's map the world you're already living in.</p>
+              <ol>
+                <li>Spend 10 minutes listing every digital service or app you used in the last 24 hours (phone, school platforms, streaming, social media, maps, etc.).</li>
+                <li>For each one, decide: does it use AI? How do you know — or guess?</li>
+                <li>Mark which ones use <strong>predictive AI</strong> (recommending, predicting, filtering) and which use <strong>generative AI</strong> (creating text, images, audio).</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your first thoughts (before AI)</div>
+            <div class="reflection-area">
+              <textarea id="e1-pre" placeholder="Write your list here. Apps, platforms, tools — and your guess about whether they use AI and how..." oninput="saveReflection('e1-pre');updateChar('e1-pre','e1-precount')" rows="5"></textarea>
+              <div class="char-count" id="e1-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt — copy and paste into your AI tool</div>
+              <div class="prompt-text" id="e1-prompt">"I am a high school student in Norway. I use these digital services daily: [paste your list here]. For each one, tell me whether it likely uses AI, what type (predictive or generative), and give me one specific example of how the AI affects my experience. Also flag any that you are uncertain about."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e1-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="info-box">
+              <span class="info-icon">💡</span>
+              <span>Fill in your actual list before copying! A specific prompt gives a much better response than a vague one.</span>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection — after using AI</div>
+            <div class="task-description">
+              <p>Now answer these questions in writing:</p>
+            </div>
+            <div class="reflection-area">
+              <textarea id="e1-reflection" placeholder="1. What did the AI tell you that surprised you? &#10;2. Did it get anything wrong or confuse you? &#10;3. Was there anything in your daily life you didn't expect to involve AI? &#10;4. What does it feel like to realise how much AI is already shaping your experience?" oninput="saveReflection('e1-reflection');updateChar('e1-reflection','e1-count')" rows="7"></textarea>
+              <div class="char-count" id="e1-count">0 characters</div>
+            </div>
+            <div class="save-note">Your writing saves automatically to this browser. It won't be sent anywhere.</div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e1-c1')"> I listed at least 8 digital services or apps I use</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e1-c2')"> I distinguished between predictive and generative AI for at least 3 of them</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e1-c3')"> I noticed at least one AI system I hadn't consciously thought about before</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e1-c4')"> I questioned or pushed back on at least one thing the AI tool told me</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('engage', 0, this)" aria-label="Mark task 1 as complete">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK E2 -->
+      <article class="task-card reveal" id="task-engage-2" aria-labelledby="te2-title">
+        <div class="task-header" onclick="toggleTask('te2-body', 'te2-toggle')" role="button" aria-expanded="false" aria-controls="te2-body">
+          <div class="task-number">02</div>
+          <div class="task-meta">
+            <span class="task-level level-basic">Basic to Intermediate</span>
+            <h3 class="task-title" id="te2-title">Can you trust this output?</h3>
+            <p class="task-summary">Test an AI's accuracy on something you already know — and learn to fact-check like a professional.</p>
+          </div>
+          <div class="task-toggle" id="te2-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="te2-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>AI-generated content can look totally convincing while being completely wrong. This is called a <strong>hallucination</strong> — the model produces something statistically plausible, but factually false. Your job is to become a skilled output evaluator.</p>
+              <ol>
+                <li>Choose a topic you genuinely know well — your hometown, a hobby, a sport, a subject you're strong in, or something about Norwegian history or culture.</li>
+                <li>Ask an AI to explain or describe that topic in a paragraph.</li>
+                <li>Read the output carefully. Look for errors, oversimplifications, or things that sound right but feel off.</li>
+                <li>Use a trusted external source (encyclopedia, official site, textbook) to verify the claims.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your topic and what you already know</div>
+            <div class="reflection-area">
+              <textarea id="e2-pre" placeholder="What topic did you choose and why? Write 3 to 5 facts you already know about it before asking the AI." oninput="saveReflection('e2-pre');updateChar('e2-pre','e2-precount')" rows="4"></textarea>
+              <div class="char-count" id="e2-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt</div>
+              <div class="prompt-text" id="e2-prompt">"Please write a detailed paragraph (150 to 200 words) explaining [your topic]. Include specific facts, names, dates, or statistics where relevant. Be as precise as possible."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e2-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="info-box">
+              <span class="info-icon">⚠️</span>
+              <span>Replace [your topic] with your actual topic. Ask for specifics — that's where AI most often goes wrong.</span>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Fact-checking log</div>
+            <div class="reflection-area">
+              <textarea id="e2-log" placeholder="Paste the AI's response here (or summarise it). Then go through it claim by claim:&#10;&#10;Claim 1: [what the AI said] — TRUE / FALSE / UNCERTAIN because...&#10;Claim 2: ...&#10;&#10;What source did you use to verify?" oninput="saveReflection('e2-log');updateChar('e2-log','e2-logcount')" rows="8"></textarea>
+              <div class="char-count" id="e2-logcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Critical reflection</div>
+            <div class="reflection-area">
+              <textarea id="e2-reflection" placeholder="1. How many claims were accurate? How many were wrong or misleading?&#10;2. Were the errors small (a date off by a year) or significant (a completely false statement)?&#10;3. If you had not known this topic, would you have trusted the AI? Why is that dangerous?&#10;4. What does this exercise teach you about using AI for research or homework?" oninput="saveReflection('e2-reflection');updateChar('e2-reflection','e2-count')" rows="7"></textarea>
+              <div class="char-count" id="e2-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e2-c1')"> I chose a topic I genuinely know well</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e2-c2')"> I fact-checked at least 4 specific claims from the AI output</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e2-c3')"> I used at least one external source that is not another AI</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e2-c4')"> I reflected on why this matters for my everyday use of AI</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('engage', 1, this)" aria-label="Mark task 2 as complete">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK E3 -->
+      <article class="task-card reveal" id="task-engage-3" aria-labelledby="te3-title">
+        <div class="task-header" onclick="toggleTask('te3-body', 'te3-toggle')" role="button" aria-expanded="false" aria-controls="te3-body">
+          <div class="task-number">03</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate</span>
+            <h3 class="task-title" id="te3-title">The algorithm and you</h3>
+            <p class="task-summary">Investigate how recommendation systems shape your worldview — and what they're hiding from you.</p>
+          </div>
+          <div class="task-toggle" id="te3-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="te3-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>When YouTube, TikTok, Spotify, or Instagram recommends content to you, a predictive AI is working behind the scenes. It learns from every click, pause, like, and scroll. Over time, this creates a <strong>filter bubble</strong> — a personalised information environment that can narrow what you see and believe.</p>
+              <ol>
+                <li>Pick one platform you use regularly (YouTube, TikTok, Spotify, Instagram, news apps).</li>
+                <li>Look at your current recommendations or "for you" feed. What patterns do you notice? What types of content, creators, or viewpoints appear?</li>
+                <li>Think about what is <em>not</em> appearing — what topics, perspectives, or cultures are absent?</li>
+                <li>Use an AI tool to help you think through how recommendation algorithms work and what risks they carry.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your observation (before AI)</div>
+            <div class="reflection-area">
+              <textarea id="e3-pre" placeholder="Which platform did you pick? What do you notice in your recommendations? What themes, types of content, and perspectives come up most? What seems to be missing?" oninput="saveReflection('e3-pre');updateChar('e3-pre','e3-precount')" rows="5"></textarea>
+              <div class="char-count" id="e3-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt — Part A</div>
+              <div class="prompt-text" id="e3-prompt1">"Explain how [platform name]'s recommendation algorithm works. What data does it collect about users? How does it decide what to show? What are the risks — for individuals and for society — when people only see content that matches their existing views?"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e3-prompt1', this)">📋 Copy prompt</button>
+            </div>
+            <div class="ai-prompt-box" style="margin-top:12px;">
+              <div class="prompt-label">🤖 Suggested prompt — Part B (follow-up)</div>
+              <div class="prompt-text" id="e3-prompt2">"Now give me 3 practical things a teenager in Norway can do to intentionally break out of their filter bubble and encounter more diverse perspectives online. Be specific."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e3-prompt2', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Analysis and reflection</div>
+            <div class="reflection-area">
+              <textarea id="e3-reflection" placeholder="1. What did you learn about how the algorithm actually works?&#10;2. How do you feel knowing your feed is personalised to keep you engaged — not to inform you?&#10;3. What perspectives or topics might you be missing because of your filter bubble?&#10;4. Which of the AI's suggestions for breaking out of the bubble would you actually try? Why?&#10;5. Does knowing this change how you'll use the platform going forward?" oninput="saveReflection('e3-reflection');updateChar('e3-reflection','e3-count')" rows="9"></textarea>
+              <div class="char-count" id="e3-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e3-c1')"> I observed and described my actual feed or recommendations in detail</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e3-c2')"> I thought about what is <em>absent</em>, not just what is present</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e3-c3')"> I can explain what a filter bubble is in my own words</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e3-c4')"> I identified at least one concrete action I'll take differently after this task</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('engage', 2, this)" aria-label="Mark task 3 as complete">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK E4 -->
+      <article class="task-card reveal" id="task-engage-4" aria-labelledby="te4-title">
+        <div class="task-header" onclick="toggleTask('te4-body', 'te4-toggle')" role="button" aria-expanded="false" aria-controls="te4-body">
+          <div class="task-number">04</div>
+          <div class="task-meta">
+            <span class="task-level level-advanced">Advanced</span>
+            <h3 class="task-title" id="te4-title">Who benefits — and who is harmed?</h3>
+            <p class="task-summary">Analyse a real-world AI use case through an ethical lens. Who wins, who loses, and what values are at stake?</p>
+          </div>
+          <div class="task-toggle" id="te4-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="te4-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>AI is not neutral. Every AI system is built by people with specific goals, funded by specific organisations, and trained on data that reflects specific histories and biases. When AI is deployed in society — in schools, hospitals, hiring processes, or policing — its effects are unequal.</p>
+              <p style="margin-top:12px;">Choose <strong>one</strong> of the following real-world AI use cases:</p>
+              <ul>
+                <li><strong>A</strong> — AI used by employers to screen job applicants' CVs</li>
+                <li><strong>B</strong> — Facial recognition technology used by police</li>
+                <li><strong>C</strong> — AI that predicts which students are at risk of dropping out of school</li>
+                <li><strong>D</strong> — Social media AI that flags and removes "harmful" content</li>
+              </ul>
+              <p style="margin-top:12px;">Your task: use AI to research your chosen case, then write a structured ethical analysis.</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your initial position (before researching)</div>
+            <div class="reflection-area">
+              <textarea id="e4-pre" placeholder="Which case did you choose and why? What is your gut feeling about it — is this AI use OK, harmful, or complicated? Write your instinct before you know the facts." oninput="saveReflection('e4-pre');updateChar('e4-pre','e4-precount')" rows="4"></textarea>
+              <div class="char-count" id="e4-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt — Research phase</div>
+              <div class="prompt-text" id="e4-prompt1">"I am analysing the use of [your chosen AI case] from an ethical perspective. Please give me: (1) a factual explanation of how the AI system works in this context, (2) documented examples of where this AI has caused harm or been found to be biased, (3) who the main beneficiaries are, (4) which groups of people are most likely to be negatively affected, and (5) what regulations or guidelines (if any) currently govern its use in Europe."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e4-prompt1', this)">📋 Copy prompt</button>
+            </div>
+            <div class="ai-prompt-box" style="margin-top:12px;">
+              <div class="prompt-label">🤖 Follow-up prompt — Challenge the AI</div>
+              <div class="prompt-text" id="e4-prompt2">"Now steelman the opposing view: give me the strongest argument that this AI system is actually beneficial and that concerns about it are overblown. Then tell me what evidence would be needed to resolve the disagreement."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('e4-prompt2', this)">📋 Copy prompt</button>
+            </div>
+            <div class="info-box">
+              <span class="info-icon">⚠️</span>
+              <span>Try to verify at least one claim the AI makes by searching for a news article, report, or academic study. AI can misremember specific cases or statistics.</span>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your ethical analysis</div>
+            <div class="task-description">
+              <p>Write a structured analysis (aim for 200 to 300 words) covering:</p>
+              <ul>
+                <li>How the system works and what it is supposed to achieve</li>
+                <li>Who benefits from it and how</li>
+                <li>Who is at risk of harm, and what kinds of harm</li>
+                <li>Whether the benefits justify the risks, and under what conditions</li>
+                <li>Your own position: should this AI be used? With what safeguards?</li>
+              </ul>
+            </div>
+            <div class="reflection-area">
+              <textarea id="e4-analysis" placeholder="Write your ethical analysis here..." oninput="saveReflection('e4-analysis');updateChar('e4-analysis','e4-analysiscount')" rows="10"></textarea>
+              <div class="char-count" id="e4-analysiscount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Metacognitive check-in</div>
+            <div class="reflection-area">
+              <textarea id="e4-meta" placeholder="Did your view change between your gut instinct and your analysis? What changed it — the AI's information, your own reasoning, or something else? What would you still need to know to feel fully confident in your position?" oninput="saveReflection('e4-meta');updateChar('e4-meta','e4-metacount')" rows="5"></textarea>
+              <div class="char-count" id="e4-metacount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e4-c1')"> I described how the AI system actually works, not just what it does</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e4-c2')"> I identified specific groups who benefit and specific groups who may be harmed</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e4-c3')"> I took a position and defended it with reasoning</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'e4-c4')"> I noticed whether and how my view shifted through the process</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('engage', 3, this)" aria-label="Mark task 4 as complete">✓ Mark as complete</button>
+        </div>
+      </article>
+
+    </div><!-- /.tasks-grid -->
+  </div>
+</section>
+
+<!-- ============================================================
+     DOMAIN 2: CREATE
+     ============================================================ -->
+<section id="create" class="domain-section domain-create" aria-labelledby="create-heading">
+  <div class="domain-inner">
+
+    <div class="domain-header reveal">
+      <div>
+        <div class="domain-badge">✦ Domain 2</div>
+        <h2 id="create-heading">Create with AI</h2>
+        <p class="domain-desc">Use AI as a creative partner — not a ghostwriter. Your ideas come first. AI amplifies, challenges, and extends them. You stay in the driver's seat.</p>
+      </div>
+      <div class="domain-meta">
+        <strong>4 Tasks</strong>
+        <p>Collaborative & creative</p>
+        <div class="domain-progress" id="create-progress" aria-label="Task progress">
+          <div class="progress-dot" data-task="create-1" title="Task 1"></div>
+          <div class="progress-dot" data-task="create-2" title="Task 2"></div>
+          <div class="progress-dot" data-task="create-3" title="Task 3"></div>
+          <div class="progress-dot" data-task="create-4" title="Task 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-grid">
+
+      <!-- TASK C1 -->
+      <article class="task-card reveal" aria-labelledby="tc1-title">
+        <div class="task-header" onclick="toggleTask('tc1-body','tc1-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">01</div>
+          <div class="task-meta">
+            <span class="task-level level-basic">Basic</span>
+            <h3 class="task-title" id="tc1-title">Your idea first, then the AI's</h3>
+            <p class="task-summary">Write something creative entirely on your own — then see what AI does with the same brief, and reflect on the difference.</p>
+          </div>
+          <div class="task-toggle" id="tc1-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tc1-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>The most important rule in creative work with AI: <strong>your idea always comes first</strong>. If AI goes first, it colonises your imagination. If you go first, AI becomes a mirror that shows you new angles on your own thinking.</p>
+              <ol>
+                <li>Choose a creative brief from the list below (or invent your own).</li>
+                <li>Write your own response — a paragraph, a few lines of a poem, a scene, a slogan, whatever the format calls for. Spend at least 8 minutes on this. Don't rush.</li>
+                <li>Then give the <em>same brief</em> to an AI. Do not show it your writing.</li>
+                <li>Compare the two. What's similar? What's different? What do you like better?</li>
+              </ol>
+              <p style="margin-top:12px;"><strong>Choose one brief:</strong></p>
+              <ul>
+                <li>Write the opening paragraph of a story set in Norway in 2050, after AI has transformed everyday life</li>
+                <li>Write a short poem about something small that matters to you</li>
+                <li>Write a 3-sentence pitch for an app that would genuinely improve your school life</li>
+                <li>Describe a memory using only sensory details (no emotions, no explanations)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your own creative work (write here first)</div>
+            <div class="reflection-area">
+              <textarea id="c1-own" placeholder="Write your creative response here. Take your time — this is yours." oninput="saveReflection('c1-own');updateChar('c1-own','c1-owncount')" rows="7"></textarea>
+              <div class="char-count" id="c1-owncount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt</div>
+              <div class="prompt-text" id="c1-prompt">"[Paste your chosen brief here exactly as written above]. Give me your best creative response. Be original, specific, and avoid clichés."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('c1-prompt', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Comparison and reflection</div>
+            <div class="reflection-area">
+              <textarea id="c1-reflection" placeholder="Paste the AI's response here, then reflect:&#10;&#10;1. What does the AI's version do well that yours doesn't?&#10;2. What does YOUR version do well that the AI's doesn't?&#10;3. Which one feels more surprising, specific, or alive — and why?&#10;4. Did comparing them give you any new ideas you want to keep?&#10;5. What would a combination of both look like?" oninput="saveReflection('c1-reflection');updateChar('c1-reflection','c1-count')" rows="9"></textarea>
+              <div class="char-count" id="c1-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c1-c1')"> I wrote my own version before looking at the AI's</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c1-c2')"> I spent at least 8 minutes on my own writing</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c1-c3')"> I identified something specific I did better than the AI</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c1-c4')"> I identified something I can learn from the AI's approach</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('create', 0, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK C2 -->
+      <article class="task-card reveal" aria-labelledby="tc2-title">
+        <div class="task-header" onclick="toggleTask('tc2-body','tc2-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">02</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate</span>
+            <h3 class="task-title" id="tc2-title">Iterate, don't accept</h3>
+            <p class="task-summary">Learn to steer AI through multiple rounds of feedback — just like working with any collaborator.</p>
+          </div>
+          <div class="task-toggle" id="tc2-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tc2-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Most people take the first AI output and stop there. That's like accepting the first draft of anything and calling it done. Real creative collaboration — whether with humans or AI — is iterative. You push, redirect, ask for something different, and improve through feedback.</p>
+              <p style="margin-top:12px;">Your mission: create a <strong>short informational explainer</strong> (about 150 words) about a topic your class is currently studying or that interests you. But you must go through <strong>at least 3 rounds</strong> of conversation with the AI before you are satisfied.</p>
+              <ol>
+                <li>Give the AI an initial brief.</li>
+                <li>After each response, write a follow-up that asks for something more specific, different in tone, shorter, clearer, or more relevant to your audience.</li>
+                <li>Track each round and document what you changed and why.</li>
+                <li>Write the final version in your own words, using the AI's iterations as raw material.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your initial brief and topic</div>
+            <div class="reflection-area">
+              <textarea id="c2-brief" placeholder="What topic are you explaining? Who is your audience? What's your first prompt to the AI?" oninput="saveReflection('c2-brief');updateChar('c2-brief','c2-briefcount')" rows="3"></textarea>
+              <div class="char-count" id="c2-briefcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool — document your rounds</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Starting prompt template</div>
+              <div class="prompt-text" id="c2-prompt">"Write a 150-word explainer about [your topic] for [your audience, e.g. 'Norwegian high school students who have never heard of this before']. Use clear, everyday language. Avoid jargon. Make it engaging."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('c2-prompt', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Iteration log — document all 3+ rounds</div>
+            <div class="reflection-area">
+              <textarea id="c2-log" placeholder="Round 1 prompt: [what you asked]&#10;Round 1 result: [what you got — brief summary]&#10;What I changed and why: [e.g. 'too formal, asked for more informal tone']&#10;&#10;Round 2 prompt: ...&#10;Round 2 result: ...&#10;What I changed and why: ...&#10;&#10;Round 3 prompt: ...&#10;[Continue until satisfied]" oninput="saveReflection('c2-log');updateChar('c2-log','c2-logcount')" rows="12"></textarea>
+              <div class="char-count" id="c2-logcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your final explainer (in your own words)</div>
+            <div class="reflection-area">
+              <textarea id="c2-final" placeholder="Write the final version here. This should be your synthesis — not a copy-paste from the AI." oninput="saveReflection('c2-final');updateChar('c2-final','c2-finalcount')" rows="6"></textarea>
+              <div class="char-count" id="c2-finalcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection on the process</div>
+            <div class="reflection-area">
+              <textarea id="c2-reflection" placeholder="1. What did you learn about how to prompt effectively by going through multiple rounds?&#10;2. Did the AI surprise you at any point — positively or negatively?&#10;3. What would have happened if you'd stopped after the first response?&#10;4. How is this similar to (or different from) getting feedback from a human peer?" oninput="saveReflection('c2-reflection');updateChar('c2-reflection','c2-count')" rows="7"></textarea>
+              <div class="char-count" id="c2-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c2-c1')"> I completed at least 3 distinct rounds of prompting</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c2-c2')"> I explained what I changed each round and why</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c2-c3')"> My final version is written in my own words</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c2-c4')"> I reflected on what iterative prompting taught me</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('create', 1, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK C3 -->
+      <article class="task-card reveal" aria-labelledby="tc3-title">
+        <div class="task-header" onclick="toggleTask('tc3-body','tc3-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">03</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate to Advanced</span>
+            <h3 class="task-title" id="tc3-title">Who owns what we make together?</h3>
+            <p class="task-summary">Explore the thorny questions of originality, authorship, and copyright when AI is involved in creation.</p>
+          </div>
+          <div class="task-toggle" id="tc3-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tc3-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>When you use AI to create something — a piece of writing, an image, a piece of music — who is the author? Who owns it? Can you copyright it? Can the AI tool's company use it? Can it be used commercially without crediting the original human artists whose work the AI learned from?</p>
+              <p style="margin-top:12px;">These are not hypothetical questions — they are being argued in courts right now.</p>
+              <ol>
+                <li>Ask an AI to generate something creative in the style of a specific, well-known artist, musician, or author.</li>
+                <li>Use a separate AI prompt to research the legal and ethical situation around that kind of request.</li>
+                <li>Form your own view on the question: where do you draw the line?</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your creative experiment</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Prompt — Part A: creative generation</div>
+              <div class="prompt-text" id="c3-prompt1">"Write a short poem (8 to 10 lines) in the style of [choose: Sylvia Plath / Bob Dylan / Karl Ove Knausgård / your favourite musician or author]. Capture their typical themes, tone, and imagery. Topic: [choose your own topic]."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('c3-prompt1', this)">📋 Copy prompt</button>
+            </div>
+            <div class="reflection-area" style="margin-top:12px;">
+              <textarea id="c3-gen" placeholder="Paste the AI-generated piece here." oninput="saveReflection('c3-gen');updateChar('c3-gen','c3-gencount')" rows="5"></textarea>
+              <div class="char-count" id="c3-gencount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Research the ethics and law</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Prompt — Part B: ethical research</div>
+              <div class="prompt-text" id="c3-prompt2">"What are the current legal and ethical debates around AI generating creative work in the style of living or recently deceased artists, musicians, and authors? What are the main arguments for and against this practice? Include any relevant court cases or policy developments in Europe or the US. Also: who owns AI-generated content under current law?"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('c3-prompt2', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your analysis and position</div>
+            <div class="reflection-area">
+              <textarea id="c3-reflection" placeholder="1. Does the AI-generated piece actually capture the style you asked for? What does it get right and wrong?&#10;2. If you published the AI-generated piece under your name, would that be honest? Would it be legal?&#10;3. Should artists be able to prevent AI from learning from their work? Why or why not?&#10;4. Where exactly is the line between 'inspiration' and 'copying' when it comes to AI?&#10;5. How will you handle attribution when you use AI in creative school work?" oninput="saveReflection('c3-reflection');updateChar('c3-reflection','c3-count')" rows="9"></textarea>
+              <div class="char-count" id="c3-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c3-c1')"> I analysed the AI-generated piece critically — not just accepted it as good</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c3-c2')"> I understood and can explain the main copyright and authorship debates</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c3-c3')"> I formed and defended my own position on where to draw the ethical line</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c3-c4')"> I have a clear personal policy for how I will handle AI use in my school work</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('create', 2, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK C4 -->
+      <article class="task-card reveal" aria-labelledby="tc4-title">
+        <div class="task-header" onclick="toggleTask('tc4-body','tc4-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">04</div>
+          <div class="task-meta">
+            <span class="task-level level-challenge">Challenge</span>
+            <h3 class="task-title" id="tc4-title">Build something real</h3>
+            <p class="task-summary">Use AI across multiple creative tools to prototype a project that addresses something real in your school, community, or local environment.</p>
+          </div>
+          <div class="task-toggle" id="tc4-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tc4-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>You are going to use AI as a genuine creative partner to produce something with real-world purpose. This is the hardest task in this domain because you are responsible for <em>all</em> the decisions.</p>
+              <ol>
+                <li><strong>Identify a problem</strong> in your school, neighbourhood, or local community in Norway that you care about — something real, not hypothetical.</li>
+                <li><strong>Design a concept</strong> for a campaign, product, event, or piece of content that could address it.</li>
+                <li><strong>Use at least 3 different AI tools or prompts</strong> to develop different parts of it (e.g. one for writing, one for visual descriptions or image generation if available, one to brainstorm and critique).</li>
+                <li><strong>Document everything</strong>: what you asked, what the AI gave you, what you changed, and why.</li>
+                <li><strong>Reflect critically</strong> on what the AI added and what it couldn't do.</li>
+              </ol>
+              <div class="info-box">
+                <span class="info-icon">💡</span>
+                <span>Examples of problems: plastic waste at school, students feeling lonely, misinformation in your friend group, lack of info about local democracy, mental health resources, climate action opportunities in your municipality.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Problem statement and concept</div>
+            <div class="reflection-area">
+              <textarea id="c4-concept" placeholder="Problem: [What is the problem? Who does it affect? Why does it matter?]&#10;&#10;Your concept: [What are you creating? Who is it for? What do you want it to do?]&#10;&#10;Why this matters to you: [Personal connection]" oninput="saveReflection('c4-concept');updateChar('c4-concept','c4-conceptcount')" rows="7"></textarea>
+              <div class="char-count" id="c4-conceptcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">AI collaboration log (3+ interactions)</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt types — use all three</div>
+              <div class="prompt-text" id="c4-prompt">"Type 1 (Brainstorm): 'I'm a Norwegian high school student trying to address [your problem]. Give me 10 creative and practical ideas for a project — mix big and small, digital and physical.'&#10;&#10;Type 2 (Develop): 'I want to create [your chosen idea]. Write a detailed description of how it would work, who it would involve, and what it would look like or say.'&#10;&#10;Type 3 (Critique): 'Here is my project concept: [describe it]. What are the 3 biggest weaknesses or risks? What am I missing? What might go wrong?'"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('c4-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="reflection-area" style="margin-top:12px;">
+              <textarea id="c4-log" placeholder="Log each AI interaction:&#10;&#10;Interaction 1 — Tool used / What I asked / Key output / What I took and what I rejected&#10;Interaction 2 — ...&#10;Interaction 3 — ..." oninput="saveReflection('c4-log');updateChar('c4-log','c4-logcount')" rows="10"></textarea>
+              <div class="char-count" id="c4-logcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Final project description</div>
+            <div class="reflection-area">
+              <textarea id="c4-final" placeholder="Describe your final concept in 150 to 200 words. What is it, who is it for, and what problem does it solve? This should be entirely in your own words." oninput="saveReflection('c4-final');updateChar('c4-final','c4-finalcount')" rows="7"></textarea>
+              <div class="char-count" id="c4-finalcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Critical reflection on AI as a creative collaborator</div>
+            <div class="reflection-area">
+              <textarea id="c4-reflection" placeholder="1. What did AI genuinely add to your project that you wouldn't have thought of alone?&#10;2. What did AI get wrong or fail to understand about your specific local context?&#10;3. Was there a moment where you had to override AI because it didn't understand something human or local?&#10;4. Do you feel like the creator of this project, or like you assembled AI outputs? Why?&#10;5. If you were to present this to your class or your local community, what would you say about how you made it?" oninput="saveReflection('c4-reflection');updateChar('c4-reflection','c4-count')" rows="9"></textarea>
+              <div class="char-count" id="c4-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c4-c1')"> My project addresses a real and specific problem</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c4-c2')"> I used at least 3 different AI prompts or tools</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c4-c3')"> I documented what I accepted and rejected from AI outputs</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'c4-c4')"> I feel confident calling this project genuinely mine</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('create', 3, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DOMAIN 3: MANAGE
+     ============================================================ -->
+<section id="manage" class="domain-section domain-manage" aria-labelledby="manage-heading">
+  <div class="domain-inner">
+
+    <div class="domain-header reveal">
+      <div>
+        <div class="domain-badge">⚖ Domain 3</div>
+        <h2 id="manage-heading">Manage AI</h2>
+        <p class="domain-desc">Know when to use AI, when not to, and how to stay in control. Divide work intelligently between human judgment and machine capability.</p>
+      </div>
+      <div class="domain-meta">
+        <strong>4 Tasks</strong>
+        <p>Decision-making & oversight</p>
+        <div class="domain-progress" id="manage-progress" aria-label="Task progress">
+          <div class="progress-dot" data-task="manage-1" title="Task 1"></div>
+          <div class="progress-dot" data-task="manage-2" title="Task 2"></div>
+          <div class="progress-dot" data-task="manage-3" title="Task 3"></div>
+          <div class="progress-dot" data-task="manage-4" title="Task 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-grid">
+
+      <!-- TASK M1 -->
+      <article class="task-card reveal" aria-labelledby="tm1-title">
+        <div class="task-header" onclick="toggleTask('tm1-body','tm1-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">01</div>
+          <div class="task-meta">
+            <span class="task-level level-basic">Basic</span>
+            <h3 class="task-title" id="tm1-title">AI for this — or not?</h3>
+            <p class="task-summary">Build your own framework for deciding when AI is useful, unnecessary, or actually harmful for a task.</p>
+          </div>
+          <div class="task-toggle" id="tm1-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tm1-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Not every task is better with AI. Using AI to write a heartfelt birthday message to your best friend defeats the point. Using AI to translate a document you'd otherwise guess at might be essential. Good AI management starts with knowing the difference.</p>
+              <ol>
+                <li>Look at the list of tasks below. For each one, decide: <strong>AI only / AI-supported / Human only / Unsure.</strong></li>
+                <li>Write a brief reason for each decision.</li>
+                <li>Then use an AI to check your reasoning — and see whether it agrees or challenges you.</li>
+                <li>Update your framework based on the conversation.</li>
+              </ol>
+              <p style="margin-top:12px;"><strong>Task list:</strong></p>
+              <ul>
+                <li>Writing a formal complaint letter to your municipality</li>
+                <li>Deciding whether to trust a news article you just read</li>
+                <li>Summarising 20 pages of a textbook before an exam</li>
+                <li>Choosing which university subject to study</li>
+                <li>Translating a document from Norwegian to English</li>
+                <li>Comforting a friend who is going through something hard</li>
+                <li>Preparing for a debate by generating counterarguments</li>
+                <li>Deciding whether a photo of a public figure is real or manipulated</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your classification (before AI)</div>
+            <div class="reflection-area">
+              <textarea id="m1-classify" placeholder="Go through each task. Write: [task name] — [AI only / AI-supported / Human only / Unsure] — [your reasoning in one sentence]" oninput="saveReflection('m1-classify');updateChar('m1-classify','m1-classcount')" rows="10"></textarea>
+              <div class="char-count" id="m1-classcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt</div>
+              <div class="prompt-text" id="m1-prompt">"Here are 8 tasks and my classification of whether AI should be used for them. For each one, either agree with my reasoning or challenge it — and explain why. Also: what are the key factors that determine whether AI is appropriate for a task?"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('m1-prompt', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your updated framework and reflection</div>
+            <div class="reflection-area">
+              <textarea id="m1-reflection" placeholder="1. Did the AI agree with your classification? Where did it push back?&#10;2. Did any of its challenges change your mind? Which ones and why?&#10;3. What are the 2 to 3 key factors that should determine whether to use AI for something?&#10;4. Write your personal decision rule: 'I will use AI for X when... but not when...'" oninput="saveReflection('m1-reflection');updateChar('m1-reflection','m1-count')" rows="8"></textarea>
+              <div class="char-count" id="m1-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m1-c1')"> I classified all 8 tasks with a clear reason for each</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m1-c2')"> I genuinely engaged with the AI's challenges to my reasoning</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m1-c3')"> I identified the key factors that determine appropriate AI use</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m1-c4')"> I wrote a personal decision rule I can actually apply</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('manage', 0, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK M2 -->
+      <article class="task-card reveal" aria-labelledby="tm2-title">
+        <div class="task-header" onclick="toggleTask('tm2-body','tm2-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">02</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate</span>
+            <h3 class="task-title" id="tm2-title">Break the problem down</h3>
+            <p class="task-summary">Use computational thinking to decompose a real challenge and decide exactly which parts AI should and shouldn't touch.</p>
+          </div>
+          <div class="task-toggle" id="tm2-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tm2-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Smart AI use requires you to break tasks into components and ask: which part needs human judgment, creativity, or contextual knowledge — and which part is something AI can handle efficiently?</p>
+              <p style="margin-top:12px;">Your challenge: <strong>plan an event for your class or school</strong>. This could be a debate, a trip, a fundraiser, a presentation day, or a social event. Anything real.</p>
+              <ol>
+                <li>List every step involved in planning and executing this event.</li>
+                <li>For each step, decide: Human, AI, or Both? And exactly what should AI do vs. what should you do?</li>
+                <li>Execute at least 2 of the AI-assisted steps using a real AI tool.</li>
+                <li>Evaluate what the AI actually produced — was it useful?</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your event and task breakdown</div>
+            <div class="reflection-area">
+              <textarea id="m2-breakdown" placeholder="Event type: [describe your event]&#10;&#10;Step 1: [e.g. Choose a date] — Human / AI / Both — [reason]&#10;Step 2: [e.g. Write invitations] — Human / AI / Both — [reason]&#10;Step 3: ...&#10;[Continue for all steps]" oninput="saveReflection('m2-breakdown');updateChar('m2-breakdown','m2-breakcount')" rows="10"></textarea>
+              <div class="char-count" id="m2-breakcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool — execute 2+ AI-assisted steps</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt (adapt to your event)</div>
+              <div class="prompt-text" id="m2-prompt">"I am planning [describe your event] for my high school class of [number] students in Norway. It will take place in [timeframe]. Help me with [specific task, e.g. 'write a 3-paragraph invitation email that sounds enthusiastic but not over-the-top' OR 'create a realistic timeline and checklist for organising this']. Be specific and practical."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('m2-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="reflection-area" style="margin-top:12px;">
+              <textarea id="m2-ailog" placeholder="What AI tasks did you execute? What did it produce? Was it useful, or did it miss the point? What did you have to fix or rewrite?" oninput="saveReflection('m2-ailog');updateChar('m2-ailog','m2-ailogcount')" rows="6"></textarea>
+              <div class="char-count" id="m2-ailogcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection</div>
+            <div class="reflection-area">
+              <textarea id="m2-reflection" placeholder="1. Which steps genuinely needed human judgment and couldn't be handed to AI?&#10;2. Which steps did AI handle efficiently?&#10;3. Did AI ever produce something that felt generic or missed the context of your school or class? &#10;4. What did this teach you about 'decomposing' a task before using AI?" oninput="saveReflection('m2-reflection');updateChar('m2-reflection','m2-count')" rows="7"></textarea>
+              <div class="char-count" id="m2-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m2-c1')"> I listed at least 8 steps in the planning process</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m2-c2')"> I gave a clear reason for each Human/AI/Both classification</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m2-c3')"> I actually executed at least 2 AI-assisted steps and evaluated the output</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m2-c4')"> I identified at least one step where AI output was insufficient and explained why</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('manage', 1, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK M3 -->
+      <article class="task-card reveal" aria-labelledby="tm3-title">
+        <div class="task-header" onclick="toggleTask('tm3-body','tm3-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">03</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate to Advanced</span>
+            <h3 class="task-title" id="tm3-title">Monitor and course-correct</h3>
+            <p class="task-summary">Use AI for a multi-step research task, but stay in control: catch errors, redirect when needed, and maintain your own oversight throughout.</p>
+          </div>
+          <div class="task-toggle" id="tm3-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tm3-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>AI can go off-track. It can drift away from your original goal, start hallucinating, become repetitive, or produce content that sounds right but is misleading. Managing AI means actively monitoring and correcting its course — not just accepting what comes out.</p>
+              <p style="margin-top:12px;">Your task: use AI to help you research a controversial or complex topic for a school subject. The topic must be something where:
+              </p>
+              <ul>
+                <li>There are multiple legitimate perspectives</li>
+                <li>Facts matter and can be verified</li>
+                <li>AI might be tempted to oversimplify or take sides</li>
+              </ul>
+              <p style="margin-top:12px;"><strong>Suggested topics:</strong> immigration policy in Norway, the ethics of eating meat, social media and teen mental health, nuclear energy in Europe, mandatory military service.</p>
+              <p style="margin-top:12px;">You will use at least <strong>4 prompts</strong> in a conversation, monitoring at each step whether the AI is staying accurate, balanced, and on topic.</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your topic and research goal</div>
+            <div class="reflection-area">
+              <textarea id="m3-goal" placeholder="What topic did you choose? What specific question are you trying to answer? What do you already know or believe about it?" oninput="saveReflection('m3-goal');updateChar('m3-goal','m3-goalcount')" rows="4"></textarea>
+              <div class="char-count" id="m3-goalcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool — 4-step guided conversation</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 4-prompt structure to use</div>
+              <div class="prompt-text" id="m3-prompt">"Step 1 — Overview: 'Give me a balanced, factual overview of [your topic]. Present the main perspectives and the key evidence on each side. Avoid taking a position.'&#10;&#10;Step 2 — Dig deeper: 'Focus on [one aspect that seems unclear or one-sided]. Give me more detail and specific evidence or examples.'&#10;&#10;Step 3 — Challenge: 'What is the strongest argument against the view you just described? Who makes this argument and what evidence do they use?'&#10;&#10;Step 4 — Verify: 'List 3 specific claims you made in this conversation that I should verify with another source. Explain why each one could potentially be incorrect or incomplete.'"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('m3-prompt', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Monitoring log — track AI behaviour across 4 steps</div>
+            <div class="reflection-area">
+              <textarea id="m3-log" placeholder="After each step, note:&#10;&#10;Step 1: Was it balanced? Did it seem to favour one side? Any factual claims that worried you?&#10;Step 2: Did it go deeper meaningfully? Did it add new information?&#10;Step 3: Did it genuinely steelman the opposing view, or hedge?&#10;Step 4: Were the claims it flagged for verification the ones you were most uncertain about?" oninput="saveReflection('m3-log');updateChar('m3-log','m3-logcount')" rows="9"></textarea>
+              <div class="char-count" id="m3-logcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection on managing AI through a complex task</div>
+            <div class="reflection-area">
+              <textarea id="m3-reflection" placeholder="1. Did the AI stay on track, or did you have to correct its course? How?&#10;2. Did you catch any bias or oversimplification? What was it?&#10;3. Which of Step 4's flagged claims did you actually verify? What did you find?&#10;4. What would have happened if you'd just read Step 1's output and moved on?&#10;5. How has this changed how you'll use AI for school research in the future?" oninput="saveReflection('m3-reflection');updateChar('m3-reflection','m3-count')" rows="8"></textarea>
+              <div class="char-count" id="m3-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m3-c1')"> I completed all 4 structured prompts in sequence</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m3-c2')"> I noticed and documented at least one issue with the AI's output</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m3-c3')"> I verified at least one claim from the conversation using an external source</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m3-c4')"> I can describe what 'monitoring AI' means in practice</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('manage', 2, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK M4 -->
+      <article class="task-card reveal" aria-labelledby="tm4-title">
+        <div class="task-header" onclick="toggleTask('tm4-body','tm4-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">04</div>
+          <div class="task-meta">
+            <span class="task-level level-advanced">Advanced</span>
+            <h3 class="task-title" id="tm4-title">Write your school's AI policy</h3>
+            <p class="task-summary">Draft a realistic, principled AI use policy for your class — then defend it to your peers.</p>
+          </div>
+          <div class="task-toggle" id="tm4-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="tm4-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Your school probably doesn't have a clear AI policy yet — or if it does, it may not reflect students' real experience of AI tools. You are going to draft one. This is a genuine management task: setting rules about when and how AI should be used, and making sure those rules serve learning rather than undermine it.</p>
+              <ol>
+                <li>Use an AI to help you understand what makes a good AI policy for schools — and what issues need to be addressed.</li>
+                <li>Draft a policy for your own class, covering: academic work, creative projects, exams, personal wellbeing use, and transparency/attribution.</li>
+                <li>Then use AI to stress-test your policy — find the weaknesses, loopholes, or missing cases.</li>
+                <li>Write a final version that you would genuinely be comfortable presenting to your teacher.</li>
+              </ol>
+              <div class="info-box">
+                <span class="info-icon">💡</span>
+                <span>Real challenge: can you write a policy that is strict enough to protect learning, but flexible enough to embrace AI as a genuine tool? Most policies get one and miss the other.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your initial instincts</div>
+            <div class="reflection-area">
+              <textarea id="m4-pre" placeholder="Before researching: What rules do you think should exist around AI use in your school? What should always be allowed? What should never be allowed? What depends on the situation?" oninput="saveReflection('m4-pre');updateChar('m4-pre','m4-precount')" rows="5"></textarea>
+              <div class="char-count" id="m4-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Research and stress-test with AI</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Research prompt</div>
+              <div class="prompt-text" id="m4-prompt1">"What are the key questions a school AI policy must address? What are the best practices from schools or education systems that have already developed AI policies? What are the biggest mistakes schools make in their AI policies?"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('m4-prompt1', this)">📋 Copy prompt</button>
+            </div>
+            <div class="ai-prompt-box" style="margin-top:12px;">
+              <div class="prompt-label">🤖 Stress-test prompt</div>
+              <div class="prompt-text" id="m4-prompt2">"Here is my draft AI policy for my class: [paste your draft]. Find the 5 biggest weaknesses, loopholes, or situations my policy doesn't handle well. For each one, suggest how it could be fixed."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('m4-prompt2', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your final AI policy (draft here)</div>
+            <div class="reflection-area">
+              <textarea id="m4-policy" placeholder="CLASS AI POLICY — [Your class/school name]&#10;&#10;Purpose: [Why this policy exists]&#10;&#10;Section 1 — Academic work: [When AI is/isn't allowed for assignments and homework]&#10;Section 2 — Creative projects: [Rules for AI-assisted creative work and attribution]&#10;Section 3 — Exams and assessments: [AI rules in test conditions]&#10;Section 4 — Personal wellbeing: [Guidance on using AI for emotional support or personal advice]&#10;Section 5 — Transparency: [How students must disclose AI use]&#10;&#10;Enforcement: [How the policy is upheld and what happens if it's broken]" oninput="saveReflection('m4-policy');updateChar('m4-policy','m4-policycount')" rows="14"></textarea>
+              <div class="char-count" id="m4-policycount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection</div>
+            <div class="reflection-area">
+              <textarea id="m4-reflection" placeholder="1. What was the hardest thing to decide a rule for — and why?&#10;2. Did writing this policy change how you think about your own AI use?&#10;3. What weakness in your policy do you still feel uncertain about?&#10;4. How did AI help you write this AI policy, and is there something ironic or interesting about that?" oninput="saveReflection('m4-reflection');updateChar('m4-reflection','m4-count')" rows="7"></textarea>
+              <div class="char-count" id="m4-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m4-c1')"> My policy covers at least 4 distinct areas (academic, creative, exams, wellbeing, transparency)</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m4-c2')"> I genuinely stress-tested my policy using AI and revised it based on the feedback</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m4-c3')"> My policy is specific enough to be enforced, not just aspirational</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'m4-c4')"> I could comfortably present and defend this policy to my teacher</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('manage', 3, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DOMAIN 4: SHAPE
+     ============================================================ -->
+<section id="shape" class="domain-section domain-shape" aria-labelledby="shape-heading">
+  <div class="domain-inner">
+
+    <div class="domain-header reveal">
+      <div>
+        <div class="domain-badge">⬡ Domain 4</div>
+        <h2 id="shape-heading">Shape AI</h2>
+        <p class="domain-desc">Move beyond using AI to influencing it. Understand how AI systems are built, evaluate their flaws, and propose improvements that reflect human values and social good.</p>
+      </div>
+      <div class="domain-meta">
+        <strong>4 Tasks</strong>
+        <p>Technical & systems thinking</p>
+        <div class="domain-progress" id="shape-progress" aria-label="Task progress">
+          <div class="progress-dot" data-task="shape-1" title="Task 1"></div>
+          <div class="progress-dot" data-task="shape-2" title="Task 2"></div>
+          <div class="progress-dot" data-task="shape-3" title="Task 3"></div>
+          <div class="progress-dot" data-task="shape-4" title="Task 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-grid">
+
+      <!-- TASK S1 -->
+      <article class="task-card reveal" aria-labelledby="ts1-title">
+        <div class="task-header" onclick="toggleTask('ts1-body','ts1-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">01</div>
+          <div class="task-meta">
+            <span class="task-level level-basic">Basic</span>
+            <h3 class="task-title" id="ts1-title">How does it actually work?</h3>
+            <p class="task-summary">Investigate the technical foundations of a specific AI system and explain it in your own words — without the hype.</p>
+          </div>
+          <div class="task-toggle" id="ts1-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="ts1-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>Most people use AI without understanding anything about how it works. That's a bit like driving a car without knowing that engines need fuel, or that brakes use friction. You don't need to be an engineer — but you do need to understand the basics to make good decisions about when to trust AI.</p>
+              <ol>
+                <li>Choose one AI system you use or have heard of: ChatGPT, Google Translate, Spotify's recommendation engine, image recognition on your phone, or another tool.</li>
+                <li>Use an AI to explain how it works — in simple terms, step by step.</li>
+                <li>Then explain it yourself, in your own words, as if you were explaining it to a 12-year-old.</li>
+                <li>Identify 2 things the system cannot do, and explain <em>why</em> — technically, not just "it's limited".</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">What you already understand (before researching)</div>
+            <div class="reflection-area">
+              <textarea id="s1-pre" placeholder="Which AI system did you choose? What do you think you already know about how it works? What parts are you confused about or curious about?" oninput="saveReflection('s1-pre');updateChar('s1-pre','s1-precount')" rows="4"></textarea>
+              <div class="char-count" id="s1-precount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use an AI tool</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Suggested prompt — Part A</div>
+              <div class="prompt-text" id="s1-prompt1">"Explain how [your chosen AI system] works, step by step, at a level appropriate for a high school student. Use concrete analogies. Cover: (1) what data it was trained on, (2) how that training works at a basic level, (3) how it generates a response or output when I use it, and (4) what it fundamentally cannot do and why."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('s1-prompt1', this)">📋 Copy prompt</button>
+            </div>
+            <div class="ai-prompt-box" style="margin-top:12px;">
+              <div class="prompt-label">🤖 Follow-up prompt — check your understanding</div>
+              <div class="prompt-text" id="s1-prompt2">"Here is my explanation of how [system] works: [paste your explanation]. What did I get right? What did I get wrong or oversimplify? What is the most important thing I missed?"</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('s1-prompt2', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your explanation (as if for a 12-year-old)</div>
+            <div class="reflection-area">
+              <textarea id="s1-explain" placeholder="Write your explanation here. Use simple language, analogies, and examples. No jargon allowed." oninput="saveReflection('s1-explain');updateChar('s1-explain','s1-explaincount')" rows="7"></textarea>
+              <div class="char-count" id="s1-explaincount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Two fundamental limitations — and why</div>
+            <div class="reflection-area">
+              <textarea id="s1-limits" placeholder="Limitation 1: [what it can't do] — Why technically: [explain the underlying reason]&#10;&#10;Limitation 2: [what it can't do] — Why technically: [explain the underlying reason]" oninput="saveReflection('s1-limits');updateChar('s1-limits','s1-limcount')" rows="5"></textarea>
+              <div class="char-count" id="s1-limcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection</div>
+            <div class="reflection-area">
+              <textarea id="s1-reflection" placeholder="1. Did understanding how it works change how you feel about using this AI tool?&#10;2. Does knowing the limitations make you more or less likely to trust it — and in what situations?&#10;3. What's one thing you now understand about AI that you didn't before this task?" oninput="saveReflection('s1-reflection');updateChar('s1-reflection','s1-count')" rows="6"></textarea>
+              <div class="char-count" id="s1-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s1-c1')"> I can explain how my chosen AI system works without using jargon</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s1-c2')"> I identified 2 limitations and gave technical reasons for each</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s1-c3')"> I used the follow-up prompt to check and improve my explanation</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s1-c4')"> I reflected on how this knowledge affects my trust in the system</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('shape', 0, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK S2 -->
+      <article class="task-card reveal" aria-labelledby="ts2-title">
+        <div class="task-header" onclick="toggleTask('ts2-body','ts2-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">02</div>
+          <div class="task-meta">
+            <span class="task-level level-intermediate">Intermediate</span>
+            <h3 class="task-title" id="ts2-title">Find the bias in the machine</h3>
+            <p class="task-summary">Design a test to detect potential bias in an AI system, run the experiment, and interpret what you find.</p>
+          </div>
+          <div class="task-toggle" id="ts2-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="ts2-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>AI bias is not a glitch — it is a feature of how AI systems are built. When training data reflects historical inequalities or the assumptions of the people who built the system, those biases show up in the outputs. Your job is to design and run a test.</p>
+              <ol>
+                <li>Form a hypothesis: what kind of bias do you think might exist in the AI tool you're going to test? (e.g. gender bias, cultural bias, language bias, political bias)</li>
+                <li>Design 4 to 6 test prompts that probe for this bias. Keep them parallel — only change the variable you're testing.</li>
+                <li>Run the test and record the outputs side by side.</li>
+                <li>Analyse: what did you find? Is there evidence of bias?</li>
+              </ol>
+              <p style="margin-top:12px;"><strong>Example hypotheses:</strong></p>
+              <ul>
+                <li>"If I ask for a story about a doctor, AI will default to male pronouns"</li>
+                <li>"AI will describe Norwegian culture more positively than cultures it associates with poverty"</li>
+                <li>"AI will produce longer, more detailed responses to prompts in English than in Norwegian"</li>
+                <li>"AI will suggest more male names than female names when asked for famous scientists"</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your hypothesis and test design</div>
+            <div class="reflection-area">
+              <textarea id="s2-hypothesis" placeholder="My hypothesis: [what bias I expect to find and why]&#10;&#10;What I will vary: [the one variable I'm testing — e.g. gender, nationality, language]&#10;What I will keep constant: [everything else about the prompts]&#10;&#10;My 4 to 6 test prompts:&#10;Prompt A: ...&#10;Prompt B: ...&#10;Prompt C: ...&#10;[etc.]" oninput="saveReflection('s2-hypothesis');updateChar('s2-hypothesis','s2-hypcount')" rows="10"></textarea>
+              <div class="char-count" id="s2-hypcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Results log</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Run your test prompts in an AI tool</div>
+              <div class="prompt-text" id="s2-prompt">"Use your designed prompts one by one. Record each output in your results log below. Try to keep your own reading neutral — just record what you see."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('s2-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="reflection-area" style="margin-top:12px;">
+              <textarea id="s2-results" placeholder="Prompt A output: [summarise key observations — pronouns used? tone? length? assumptions made?]&#10;Prompt B output: ...&#10;Prompt C output: ...&#10;[etc.]&#10;&#10;Patterns I notice across all outputs:" oninput="saveReflection('s2-results');updateChar('s2-results','s2-rescount')" rows="10"></textarea>
+              <div class="char-count" id="s2-rescount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Analysis and reflection</div>
+            <div class="reflection-area">
+              <textarea id="s2-analysis" placeholder="1. Did your test confirm your hypothesis, contradict it, or produce a mixed result?&#10;2. What specific evidence from the outputs supports your conclusion?&#10;3. What might explain the bias you found (or didn't find)?&#10;4. Who is harmed if this AI system is used in a real-world context with this bias present?&#10;5. What would need to change — in the data, the design, or the deployment — to address this bias?" oninput="saveReflection('s2-analysis');updateChar('s2-analysis','s2-count')" rows="9"></textarea>
+              <div class="char-count" id="s2-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s2-c1')"> I formed a clear hypothesis before running any tests</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s2-c2')"> My test prompts were parallel — I only varied one thing at a time</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s2-c3')"> I reported what I actually found, not what I expected to find</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s2-c4')"> I connected the finding to real-world consequences</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('shape', 1, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK S3 -->
+      <article class="task-card reveal" aria-labelledby="ts3-title">
+        <div class="task-header" onclick="toggleTask('ts3-body','ts3-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">03</div>
+          <div class="task-meta">
+            <span class="task-level level-advanced">Advanced</span>
+            <h3 class="task-title" id="ts3-title">Design a better AI</h3>
+            <p class="task-summary">Propose improvements to an existing AI system — or design a new one — that better serves human values and social good.</p>
+          </div>
+          <div class="task-toggle" id="ts3-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="ts3-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>You don't need to be a programmer to think like an AI designer. Design thinking — understanding users, identifying needs, prototyping solutions, and testing against ethical criteria — is something any thoughtful person can do.</p>
+              <p style="margin-top:12px;"><strong>Choose one of the following design challenges:</strong></p>
+              <ul>
+                <li><strong>A</strong> — Redesign ChatGPT for 13-year-olds: what should be different about how it works, what it refuses, and how it communicates?</li>
+                <li><strong>B</strong> — Design an AI tool that helps elderly people in Norway stay connected and navigate digital services</li>
+                <li><strong>C</strong> — Propose improvements to your school's existing digital tools to include AI features that actually help learning (not just speed it up)</li>
+                <li><strong>D</strong> — Design an AI that helps young people understand Norwegian politics and local democracy before they vote for the first time</li>
+              </ul>
+              <p style="margin-top:12px;">Your output: a written design brief of 200 to 300 words, plus a completed model card (a structured description of the AI system).</p>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your design brief</div>
+            <div class="reflection-area">
+              <textarea id="s3-brief" placeholder="Which challenge did you choose?&#10;&#10;Problem being solved: [what problem this AI addresses]&#10;Intended users: [who exactly will use it, and what are their specific needs?]&#10;Core function: [what the AI does — in plain language]&#10;Key constraints: [what it must never do, what it must always do]&#10;Success criteria: [how would you know if this AI is working well?]&#10;Ethical safeguards: [how does this design prevent bias, privacy violations, manipulation?]" oninput="saveReflection('s3-brief');updateChar('s3-brief','s3-briefcount')" rows="12"></textarea>
+              <div class="char-count" id="s3-briefcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use AI to pressure-test your design</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Design feedback prompt</div>
+              <div class="prompt-text" id="s3-prompt">"I have designed a concept for an AI system: [paste your brief]. Act as a critical evaluator. Tell me: (1) what this design does well, (2) what ethical risks I haven't addressed, (3) what happens when the system is used in unintended ways ('edge cases'), and (4) what data this AI would need to work — and whether collecting that data raises concerns."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('s3-prompt', this)">📋 Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Model card — structured description of your AI system</div>
+            <div class="reflection-area">
+              <textarea id="s3-modelcard" placeholder="MODEL CARD: [Name of your AI system]&#10;&#10;Purpose: [one sentence]&#10;Intended users: [who]&#10;Training data needed: [what data would it learn from?]&#10;Intended uses: [what it is for]&#10;Prohibited uses: [what it must never be used for]&#10;Known limitations: [what it cannot do well]&#10;Potential harms: [who could be hurt and how]&#10;Mitigation measures: [how harms are reduced]&#10;Who is responsible: [who maintains and is accountable for this system]" oninput="saveReflection('s3-modelcard');updateChar('s3-modelcard','s3-cardcount')" rows="12"></textarea>
+              <div class="char-count" id="s3-cardcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Reflection</div>
+            <div class="reflection-area">
+              <textarea id="s3-reflection" placeholder="1. What was the hardest design decision to make? Why?&#10;2. What did the AI's critique reveal that you hadn't considered?&#10;3. How did thinking about 'prohibited uses' change how you thought about what the AI should do?&#10;4. What would you need to actually build this — and who would you want involved?" oninput="saveReflection('s3-reflection');updateChar('s3-reflection','s3-count')" rows="7"></textarea>
+              <div class="char-count" id="s3-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s3-c1')"> My design brief is specific enough to be buildable</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s3-c2')"> My model card addresses both intended and unintended uses</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s3-c3')"> I engaged seriously with the AI's critique and revised at least one thing</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s3-c4')"> My design genuinely reflects human values, not just efficiency</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('shape', 2, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+      <!-- TASK S4 -->
+      <article class="task-card reveal" aria-labelledby="ts4-title">
+        <div class="task-header" onclick="toggleTask('ts4-body','ts4-toggle')" role="button" aria-expanded="false">
+          <div class="task-number">04</div>
+          <div class="task-meta">
+            <span class="task-level level-challenge">Challenge</span>
+            <h3 class="task-title" id="ts4-title">Your manifesto for AI</h3>
+            <p class="task-summary">After completing all four domains, write a personal manifesto: what do you believe about AI, how will you use it, and what kind of AI future do you want?</p>
+          </div>
+          <div class="task-toggle" id="ts4-toggle" aria-hidden="true">▼</div>
+        </div>
+        <div class="task-body" id="ts4-body">
+
+          <div class="task-section">
+            <div class="task-section-title">The task</div>
+            <div class="task-description">
+              <p>This is the final task. It is also the most personal. A manifesto is a public declaration of beliefs, values, and intentions. You have spent this entire workbook learning to engage with AI critically, create with it meaningfully, manage it thoughtfully, and begin to shape it.</p>
+              <p style="margin-top:12px;">Now: what do <em>you</em> believe?</p>
+              <ol>
+                <li>Use an AI to help you think through the big questions — but the answers must be yours.</li>
+                <li>Write a personal manifesto of 300 to 400 words. This should reflect your genuine view — not what you think sounds good, not a summary of this workbook.</li>
+                <li>Your manifesto should address: what AI is, what it isn't, how you will use it, what you will refuse to use it for, and what you hope AI does and does not become in your lifetime.</li>
+              </ol>
+              <div class="info-box">
+                <span class="info-icon">💡</span>
+                <span>The best manifestos are honest, specific, and willing to be uncomfortable. Avoid generic statements. Say something true and particular about your own life, values, and the world you see around you.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Use AI to think — but only to think</div>
+            <div class="ai-prompt-box">
+              <div class="prompt-label">🤖 Thinking prompt (use for ideas only — do not use the output)</div>
+              <div class="prompt-text" id="s4-prompt">"Ask me 8 questions that will help me clarify my own beliefs about AI — about its role in my life, its risks and benefits, and what kind of future I want with it. Make the questions thought-provoking, not yes/no. Then wait for my answers before saying anything else."</div>
+              <button class="copy-prompt-btn" onclick="copyPrompt('s4-prompt', this)">📋 Copy prompt</button>
+            </div>
+            <div class="info-box">
+              <span class="info-icon">⚠️</span>
+              <span>This prompt asks AI to question YOU. Answer the AI's questions in writing first — then close the AI and write your manifesto entirely on your own.</span>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">AI's questions and your raw answers</div>
+            <div class="reflection-area">
+              <textarea id="s4-answers" placeholder="Copy the AI's questions here and answer them honestly. These are notes for yourself — not the manifesto." oninput="saveReflection('s4-answers');updateChar('s4-answers','s4-anscount')" rows="10"></textarea>
+              <div class="char-count" id="s4-anscount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Your manifesto — write it entirely yourself</div>
+            <div class="reflection-area">
+              <textarea id="s4-manifesto" placeholder="MY MANIFESTO FOR AI&#10;by [your name]&#10;&#10;[Write here. Be honest. Be specific. This should sound like you.]" oninput="saveReflection('s4-manifesto');updateChar('s4-manifesto','s4-mancount')" rows="14"></textarea>
+              <div class="char-count" id="s4-mancount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Final reflection on the whole workbook</div>
+            <div class="reflection-area">
+              <textarea id="s4-final" placeholder="1. What is the single most important thing you learned from this workbook?&#10;2. Which task changed your thinking the most, and how?&#10;3. What do you wish you'd known about AI before starting this?&#10;4. What question about AI do you still not have an answer to?&#10;5. What will you do differently from now on?" oninput="saveReflection('s4-final');updateChar('s4-final','s4-finalcount')" rows="9"></textarea>
+              <div class="char-count" id="s4-finalcount">0 characters</div>
+            </div>
+          </div>
+
+          <div class="task-section">
+            <div class="task-section-title">Self-check</div>
+            <ul class="checklist">
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s4-c1')"> My manifesto is written entirely in my own words — not generated by AI</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s4-c2')"> My manifesto says something specific and personal, not just generic statements</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s4-c3')"> I addressed both what I will and won't use AI for</label></li>
+              <li><label><input type="checkbox" onchange="saveCheck(this,'s4-c4')"> I completed all 16 tasks across the 4 domains of this workbook</label></li>
+            </ul>
+          </div>
+
+          <button class="mark-done-btn" onclick="markDone('shape', 3, this)">✓ Mark as complete</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="site-footer">
+    <div class="footer-note">
+      <strong>AI Literacy Workbook</strong> · Based on the
+      <a href="https://ailiteracyframework.org/pdfs/framework_pdf/AILF_en.pdf" target="_blank" rel="noopener">OECD / European Commission AILit Framework 2026</a>
+      · Designed for Norwegian upper secondary students (Vg1 Vg2 Vg3) by Barbara Anna Zielonka
+      · <button onclick="document.getElementById('for-teachers').scrollIntoView({behavior:'smooth'})" style="background:none;border:none;color:var(--cyan);cursor:pointer;font-size:inherit;padding:0;font-family:inherit;">For Teachers</button>
+    </div>
+    <div class="footer-note">Your reflections are saved locally in this browser only. Nothing is sent to any server.</div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     FOR TEACHERS SECTION
+     ============================================================ -->
+<section id="for-teachers" style="border-top: 1px solid var(--border); padding: 80px 0; background: var(--bg-card);">
+  <div style="max-width:900px; margin:0 auto; padding:0 24px;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px;">For Educators</div>
+    <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(1.6rem,3vw,2.4rem); font-weight:600; letter-spacing:-0.02em; margin-bottom:20px;">The AILit Framework</h2>
+    <p style="color:var(--text-muted); font-size:1rem; line-height:1.75; max-width:68ch; margin-bottom:32px;">This workbook is built on the <strong style="color:var(--text);">OECD / European Commission AI Literacy Framework for Primary and Secondary Education (AILit Framework, 2026)</strong>. The framework defines four domains of AI literacy — Engage, Create, Manage, and Shape — and provides competences, learner expectations, and classroom scenarios for educators to adapt.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:40px;">
+      <div style="background:var(--bg-inset); border:1px solid var(--border); border-left:3px solid var(--engage); border-radius:12px; padding:20px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--engage); font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Engage with AI</div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin:0; line-height:1.6;">Become a critical and responsible participant in a world marked by AI. Identify AI systems, evaluate outputs, and analyse societal impacts.</p>
+      </div>
+      <div style="background:var(--bg-inset); border:1px solid var(--border); border-left:3px solid var(--create); border-radius:12px; padding:20px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--create); font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Create with AI</div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin:0; line-height:1.6;">Use AI as a creative partner while maintaining human agency. Explore ideas, iterate, and consider originality and intellectual property.</p>
+      </div>
+      <div style="background:var(--bg-inset); border:1px solid var(--border); border-left:3px solid var(--manage); border-radius:12px; padding:20px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--manage); font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Manage AI</div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin:0; line-height:1.6;">Divide work intentionally between humans and AI. Know when to use it, when not to, and how to maintain oversight throughout.</p>
+      </div>
+      <div style="background:var(--bg-inset); border:1px solid var(--border); border-left:3px solid var(--shape); border-radius:12px; padding:20px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--shape); font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Shape AI</div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin:0; line-height:1.6;">Improve AI systems to reflect human values. Investigate how systems work, evaluate them critically, and propose improvements for societal benefit.</p>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-inset); border:1px solid var(--border); border-radius:12px; padding:28px; margin-bottom:28px;">
+      <h3 style="font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:600; margin-bottom:12px;">How this workbook relates to the framework</h3>
+      <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.75; max-width:68ch; margin:0 0 12px;">Each domain in this workbook contains four tasks designed for Norwegian upper secondary students (Vg1 Vg2 Vg3, ages 16 to 18). The tasks progress from basic to advanced and are aligned with the framework's competence statements, learner expectations, and underlying knowledge, skills, and attitudes (KSA) structure. All tasks require students to use real AI tools, reflect critically in writing, and apply metacognitive strategies throughout.</p>
+      <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.75; max-width:68ch; margin:0;">The workbook was designed by <strong style="color:var(--text);">Barbara Anna Zielonka</strong> as a practical classroom implementation of the AILit Framework. Teachers are encouraged to adapt, extend, or sequence the tasks to suit their subject area, available tools, and student backgrounds. The framework itself is non-binding and explicitly designed for contextual adaptation.</p>
+
+      <div style="margin-top:18px; padding:20px 22px; background:var(--bg-inset); border:1px solid rgba(0,212,255,0.25); border-left:3px solid var(--cyan); border-radius:var(--radius);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--cyan); margin-bottom:10px;">📚 More classroom resources</div>
+        <p style="font-size:0.92rem; color:var(--text); margin:0 0 12px; line-height:1.7;">If teachers need more lesson plans, I highly suggest checking the website with over 39 lesson plans that I run in my classroom:</p>
+        <a href="https://barbaraannazielonka-commits.github.io/AIinmyclassroom/" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:var(--cyan); color:var(--navy); border-radius:var(--radius); font-family:'Space Grotesk',sans-serif; font-size:0.88rem; font-weight:700; text-decoration:none; transition:all 0.25s ease;"
+           onmouseover="this.style.background='#33DDFF'; this.style.transform='translateY(-1px)'"
+           onmouseout="this.style.background='var(--cyan)'; this.style.transform='none'">
+          🏫 AI in My Classroom — 39+ Lesson Plans
+        </a>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:10px; line-height:1.6;">Barbara Anna Zielonka's full collection of AI literacy lesson plans for upper secondary education in Norway — freely available for teachers to use, adapt, and share.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
+      <a href="https://ailiteracyframework.org/frameworks/" target="_blank" rel="noopener"
+         style="display:inline-flex; align-items:center; gap:8px; padding:12px 22px; background:var(--cyan); color:var(--navy); border-radius:12px; font-family:'Space Grotesk',sans-serif; font-size:0.9rem; font-weight:700; text-decoration:none; transition:all 0.25s ease;"
+         onmouseover="this.style.background='#33DDFF'; this.style.transform='translateY(-1px)'"
+         onmouseout="this.style.background='var(--cyan)'; this.style.transform='none'">
+        🌐 Visit the Full AILit Framework
+      </a>
+      <a href="https://ailiteracyframework.org/pdfs/framework_pdf/AILF_en.pdf" target="_blank" rel="noopener"
+         style="display:inline-flex; align-items:center; gap:8px; padding:12px 22px; background:transparent; color:var(--text); border:1px solid var(--border); border-radius:12px; font-family:'Space Grotesk',sans-serif; font-size:0.9rem; font-weight:600; text-decoration:none; transition:all 0.25s ease;"
+         onmouseover="this.style.borderColor='var(--cyan)'; this.style.color='var(--cyan)'"
+         onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text)'">
+        📄 Download the Full PDF (OECD)
+      </a>
+    </div>
+
+    <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--border);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px;">Citation</div>
+      <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.7; font-style:italic; margin:0;">OECD / European Union (2026). <em>Empowering learners for the age of AI: An AI literacy framework for primary and secondary education.</em> OECD Publishing, Paris. <a href="https://ailiteracyframework.org/pdfs/framework_pdf/AILF_en.pdf" target="_blank" rel="noopener" style="color:var(--cyan); text-decoration:none;">https://ailiteracyframework.org/pdfs/framework_pdf/AILF_en.pdf</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ── THEME TOGGLE ──────────────────────────────────────────────
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeToggle');
+
+function setTheme(theme) {
+  html.setAttribute('data-theme', theme);
+  themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('ailwTheme', theme);
+}
+
+// Load saved theme
+const savedTheme = localStorage.getItem('ailwTheme') || 'dark';
+setTheme(savedTheme);
+
+themeBtn.addEventListener('click', () => {
+  const current = html.getAttribute('data-theme');
+  setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// ── TASK ACCORDION ────────────────────────────────────────────
+function toggleTask(bodyId, toggleId) {
+  const body = document.getElementById(bodyId);
+  const toggle = document.getElementById(toggleId);
+  const header = toggle ? toggle.closest('.task-header') : null;
+
+  if (!body) return;
+
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+
+  if (toggle) toggle.textContent = isOpen ? '▼' : '▲';
+  if (header) header.setAttribute('aria-expanded', String(!isOpen));
+}
+
+// ── COPY PROMPT ───────────────────────────────────────────────
+function copyPrompt(elementId, btn) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy prompt';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy prompt';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ── SAVE REFLECTION ───────────────────────────────────────────
+function saveReflection(id) {
+  const el = document.getElementById(id);
+  if (el) localStorage.setItem('ailw_' + id, el.value);
+}
+
+function loadReflection(id) {
+  const saved = localStorage.getItem('ailw_' + id);
+  const el = document.getElementById(id);
+  if (saved && el) {
+    el.value = saved;
+    updateChar(id, id + 'count');
+  }
+}
+
+// ── CHARACTER COUNT ───────────────────────────────────────────
+function updateChar(inputId, countId) {
+  const input = document.getElementById(inputId);
+  const counter = document.getElementById(countId);
+  if (input && counter) {
+    counter.textContent = input.value.length + ' characters';
+  }
+}
+
+// ── SAVE/LOAD CHECKBOXES ──────────────────────────────────────
+function saveCheck(el, key) {
+  localStorage.setItem('ailw_chk_' + key, el.checked ? '1' : '0');
+}
+
+function loadCheck(key) {
+  return localStorage.getItem('ailw_chk_' + key) === '1';
+}
+
+// ── MARK DONE ─────────────────────────────────────────────────
+const domainProgress = {
+  engage: [false, false, false, false],
+  create: [false, false, false, false],
+  manage: [false, false, false, false],
+  shape:  [false, false, false, false]
+};
+
+function markDone(domain, index, btn) {
+  // Load current state from storage
+  const key = 'ailw_done_' + domain + '_' + index;
+  const current = localStorage.getItem(key) === '1';
+
+  if (!current) {
+    localStorage.setItem(key, '1');
+    btn.textContent = '✓ Completed!';
+    btn.classList.add('done');
+    updateProgressDots(domain);
+  } else {
+    localStorage.removeItem(key);
+    btn.textContent = '✓ Mark as complete';
+    btn.classList.remove('done');
+    updateProgressDots(domain);
+  }
+}
+
+function updateProgressDots(domain) {
+  const container = document.getElementById(domain + '-progress');
+  if (!container) return;
+  const dots = container.querySelectorAll('.progress-dot');
+  dots.forEach((dot, i) => {
+    const key = 'ailw_done_' + domain + '_' + i;
+    dot.classList.toggle('done', localStorage.getItem(key) === '1');
+  });
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── ACTIVE NAV ────────────────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+
+sections.forEach(s => navObserver.observe(s));
+
+// ── INIT: load all saved data ─────────────────────────────────
+window.addEventListener('load', () => {
+  // Load all textareas
+  document.querySelectorAll('textarea[id]').forEach(ta => {
+    loadReflection(ta.id);
+  });
+
+  // Load all checkboxes
+  document.querySelectorAll('input[type="checkbox"][onchange]').forEach(cb => {
+    const match = cb.getAttribute('onchange').match(/saveCheck\(this,'([^']+)'\)/);
+    if (match) {
+      const key = match[1];
+      cb.checked = loadCheck(key);
+    }
+  });
+
+  // Load mark-done buttons
+  ['engage','create','manage','shape'].forEach(domain => {
+    updateProgressDots(domain);
+  });
+
+  // Update mark-done button states
+  document.querySelectorAll('.mark-done-btn').forEach(btn => {
+    const onclickVal = btn.getAttribute('onclick') || '';
+    const match = onclickVal.match(/markDone\('([^']+)',\s*(\d+)/);
+    if (match) {
+      const domain = match[1];
+      const index = parseInt(match[2]);
+      const key = 'ailw_done_' + domain + '_' + index;
+      if (localStorage.getItem(key) === '1') {
+        btn.textContent = '✓ Completed!';
+        btn.classList.add('done');
+      }
+    }
+  });
+
+  // Fix nav logo link
+  const logo = document.querySelector('.nav-logo');
+  if (logo) {
+    logo.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('top').scrollIntoView({behavior:'smooth'});
+    });
+  }
+});
+</script>
+
+</body>
+</html>
